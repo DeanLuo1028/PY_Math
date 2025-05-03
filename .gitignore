@@ -4,7 +4,7 @@
 *$py.class
 
 # VS Code 設定
-#.vscode/
+**/.vscode/
 
 # Virtual environment
 venv/
