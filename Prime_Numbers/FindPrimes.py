@@ -1,17 +1,12 @@
 # 生成所有小於等於n的質數
-# 這個程式經過了很多次的改版，從最簡單的慢慢除到6k+-1法，最後成了現在這樣：
-
-import math
-
+# 使用篩法
 def is_prime(n, p):
-    isPrime = True
     for j in range(0, len(p)): # 遍歷之前找到的質數
         # 若之前找到的質數大於i的平方根，則不用再檢查
-        if p[j] > math.sqrt(n): break # n是質數
+        if p[j] > int(n ** 0.5) + 1: break # n是質數
         elif n % p[j] == 0: # 若n能被之前找到的質數整除，則i不是質數
-            isPrime = False
-            break
-    return isPrime
+            return False
+    return True
 
 def find_primes(n):
     prime = []
@@ -31,6 +26,13 @@ def find_primes(n):
         i += 1
     return prime
     
-p = find_primes(int(input("你想知道幾之內的質數？: ")))
-print(p)
-print("共有", len(p), "個質數")
+
+# 測試執行時間
+import timeit
+
+def test():
+    find_primes(100000)
+
+# 重複執行 5 次，每次執行函式 1000 次，取平均時間
+time_taken = timeit.timeit(test, number=1000)
+print(f"平均每次執行花費：{time_taken / 1000:.8f} 秒")

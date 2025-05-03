@@ -1,5 +1,4 @@
-import math
-def Isprime(n):
+def is_prime(n):
     if n < 2:
         return False
     if n == 2:
@@ -7,50 +6,42 @@ def Isprime(n):
     if n % 2 == 0:
         return False
 
-    for i in range(3, int(math.isqrt(n)) + 1, 2):
+    for i in range(3, int(n ** 0.5) + 1, 2):
         if n % i == 0:
             return False
 
     return True
 
-prime = [2,3,0]
-result = [0,0]
+prime = [2, 3]
+result = [0, 0]
 n = int(input("請輸入你要分解的數字: "))
 original_n = n
 if n == 1:
     result.append(1)
+
+i = 0  # 从第一个质数开始
 while True:
-    i = 1
-    if i > 2:
-        prime[i] = 0
-        result[i] = 0
-    p = 1
-    if n%prime[i-1] == 0:
-        result[i-1] += 1
-        n = n//prime[i-1]
-    elif prime[i-1] == 2:
-        i += 1
+    if i >= len(prime):  # 如果当前索引超出质数列表范围，则添加新的质数
+        p = prime[-1] + 2  # 从最后一个质数后的下一个奇数开始
+        while not is_prime(p):
+            p += 2
+        prime.append(p)
+        result.append(0)
+    
+    if n % prime[i] == 0:
+        result[i] += 1
+        n = n // prime[i]
     else:
-        #在質數列中添加新的質數
-        p = prime[i-1]
-        while True:
-            if Isprime(p+2):
-                p += 2
-                break
-            else:
-                p += 2
-        prime[i] = p
-        result[i-1] = 0
         i += 1
 
     if n == 1:
         break
 
-print("質因數分解的結果", original_n, "=", end="")
+print("質因數分解的結果", original_n, "=", end=" ")
 for i in range(len(prime)):
-    if result[i]!= 0:
-        print(prime[i], "^", result[i], end="")
-        if i != len(prime)-1:
+    if result[i] != 0:
+        print(prime[i], end="")
+        if result[i] > 1:
+            print("^", result[i], end="")
+        if i != len(prime) - 1:
             print(" × ", end="")
-print()
-exit()

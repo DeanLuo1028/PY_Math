@@ -21,13 +21,9 @@ def p(str): # 輸出字串且不換行
     print(str, end='')
 
 def main():
-    print('running...')  # 代表開始執行並填充primes
-    limit = 1000000  # 決定數字的上限
-    primes = find_primes(limit)
-    
     x = 0
     while x < 1 or x >= 100000:  # 輸入正整數
-        x = int(input('你想要分解哪一個數?(只限100000以下的正整數): '))
+        x = int(input('你想要分解哪一個數?: '))
         if x < 1 or x >= 100000:
             print('輸入錯誤，請輸入1到100000之間的正整數')
         else:
@@ -36,7 +32,10 @@ def main():
                 return # 結束程式
             break
     
-    if is_prime(x, primes):  # 如果 x 是質數，直接顯示
+    # 開始執行並填充primes
+    primes = find_primes(x)
+    
+    if x in primes:  # 如果x 在primes裡面，表示 x 是質數，直接顯示
         p(f'{x} 本來就是質數！')
         return # 結束程式
     
