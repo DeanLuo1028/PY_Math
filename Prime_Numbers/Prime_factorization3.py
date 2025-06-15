@@ -16,10 +16,9 @@ def is_prime(n, primes):
 
 # 主函式：質因數分解
 def prime_factorization(n):
+    if n < 1: raise "請輸入正整數！"
     if n == 1:
-        return "1 不是質數也不是合數！"
-
-    original_n = n  # 儲存原始數字（用來最後輸出用）
+        return [(1,1)]
 
     # 初始的質數列表，從 2 跟 3 開始
     primes = [2, 3]
@@ -42,27 +41,23 @@ def prime_factorization(n):
         
         i += 1  # 換下一個質數
 
-    # 以下是格式化輸出
-    result = str(original_n) + " 的質因數分解為："
-    first = True  # 控制是否需要加乘號
-
+    # 結果列表中以元組的形式存儲
+    result = [(primes[i], power[i]) for i in range(len(primes)) if power[i] != 0]  # 生成結果列表
+    '''上面那行等價於:
+    result = []
     for i in range(len(primes)):
-        if power[i] != 0:  # 有出現過的質因數才顯示
-            if not first:
-                result += " × "  # 不是第一項就加乘號
-            else:
-                first = False  # 第一項以後都要加乘號
-            result += str(primes[i])  # 顯示質因數
-            if power[i] > 1:
-                result += "^" + str(power[i])  # 顯示次方（如果次方大於 1）
-
-    # 額外處理：如果原本是質數，則沒有乘號與次方
-    if not "×" in result and not "^" in result:
-        result = str(original_n) + "本來就是質數！"
-
+        if power[i] != 0:  # 有出現過的質因數才存入
+            result.append((primes[i], power[i]))  # 以元組的形式存儲結果
+    '''
+  
     return result
 
 # 主程式入口
 if __name__ == "__main__":
     x = int(input("請輸入你要分解的數字: "))
-    print(prime_factorization(x))
+    result = prime_factorization(x)
+    print("分解結果:", x, "=", end=" ")
+    for i in range(len(result)):
+        print(result[i][0], "^", result[i][1], end=" ")
+        if i != len(result) - 1:
+            print("×", end=" ")
